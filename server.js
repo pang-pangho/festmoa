@@ -8,7 +8,7 @@ const app = express();
 
 app.use(cors()); // CORS 정책 허용
 
-const API_KEY = process.env.KOPIS_API_KEY; // 환경 변수에서 API 키 가져오기
+const API_KEY = process.env.REACT_APP_KOPIS_API_KEY; // 환경 변수에서 API 키 가져오기
 const BASE_URL = "http://www.kopis.or.kr/openApi/restful/";
 
 app.get("/api", async (req, res) => {

@@ -1,8 +1,8 @@
 {
-  "proxy": "http://kopis.or.kr",
   "name": "festmoa",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://www.kopis.or.kr",
   "dependencies": {
     "@tanstack/react-query": "^5.55.0",
     "@testing-library/jest-dom": "^5.17.0",
