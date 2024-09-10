@@ -1,23 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import TestCompo from "./components/TestCompo";
+import "./App.css";
+
+//레이아웃 -> 국내공연, 국내 페스티벌, 내한공연, 해외 페스티벌
+//각 탭마다 인기순 기능 적용
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <TestCompo />
     </div>
   );
 }

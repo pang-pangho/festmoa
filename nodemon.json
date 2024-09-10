@@ -1,0 +1,16 @@
+{
+  "restartable": "rs",
+  "ignore": ["*.test.js", "node_modules/*"],
+  "delay": "2500",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "js,json",
+  "execMap": {
+    "js": "node"
+  },
+  "watch": ["src"],
+  "events": {
+    "start": "echo 'Node.js 서버 시작'"
+  }
+}
