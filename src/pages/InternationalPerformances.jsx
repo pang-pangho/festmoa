@@ -1,11 +1,12 @@
 // src/pages/InternationalPerformances.jsx
 import React, { useEffect, useState } from "react";
-import { fetchPerformances } from "../api/kopisApi"; // API 호출 함수 임포트
+import { fetchPerformances, fetchPerformanceDetails } from "../api/kopisApi";
 
 const InternationalPerformances = () => {
   const [performances, setPerformances] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [performancesId, setPerformancesId] = useState([]);
 
   useEffect(() => {
     const loadPerformances = async () => {
@@ -13,17 +14,31 @@ const InternationalPerformances = () => {
         setLoading(true);
         const data = await fetchPerformances({
           cpage: 1,
-          rows: 10,
+          rows: 100,
           shcate: "CCCD",
         });
-        console.log("내한공연 데이터:", data);
+        console.log("공연 목록 데이터:", data);
 
-        // 필터링된 내한공연 데이터만 설정
-        if (data?.dbs?.db) {
-          setPerformances(data.dbs.db);
-        } else {
-          setPerformances([]);
+        const ids = data?.dbs?.db.map(
+          (performance) => performance.mt20id._text
+        );
+        console.log("공연 ID 목록:", ids);
+        setPerformancesId(ids);
+
+        // 상세 정보 호출 (ID로 내한공연 필터링)
+        const filteredPerformances = [];
+        for (const id of ids) {
+          const details = await fetchPerformanceDetails(id);
+
+          // visit 필드가 존재하는지 확인한 후 필터링
+          if (details?.dbs?.db?.visit?._text === "Y") {
+            console.log(details.dbs.db);
+            filteredPerformances.push(details.dbs.db);
+          }
+          setPerformances(filteredPerformances);
         }
+
+        console.log(performances);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -46,7 +61,7 @@ const InternationalPerformances = () => {
             <h2>{performance.prfnm._text}</h2>
             <div
               style={{
-                backgroundImage: `url(${performance.poster._text})`,
+                backgroundImage: `url(${performance.area._text})`,
               }}
               className="performance_poster"
             ></div>

@@ -20,3 +20,18 @@ export const fetchPerformances = async (params) => {
     throw error;
   }
 };
+export const fetchPerformanceDetails = async (performanceId) => {
+  try {
+    const response = await kopisApi.get(`/${performanceId}`, {
+      params: { service: API_KEY },
+    });
+    const jsonResult = convertXmlToJson(response.data);
+    return jsonResult;
+  } catch (error) {
+    console.error(
+      "상세 정보 호출 실패:",
+      error.response ? error.response.data : error.message
+    );
+    throw error;
+  }
+};
