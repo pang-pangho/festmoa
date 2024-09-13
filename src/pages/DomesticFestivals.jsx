@@ -1,12 +1,12 @@
 // src/pages/DomesticFestivals.jsx
 import React, { useEffect, useState } from "react";
+import FestivalCard from "../components/FestivalCard"; // 공연 정보를 보여줄 카드 컴포넌트
+import { Container, Row, Col } from "react-bootstrap"; // React Bootstrap 사용
 import { fetchPerformances } from "../api/kopisApi"; // API 호출 함수 임포트
-
 const DomesticFestivals = () => {
   const [festivals, setFestivals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   useEffect(() => {
     const loadFestivals = async () => {
       try {
@@ -37,29 +37,19 @@ const DomesticFestivals = () => {
   if (error) return <div>에러 발생: {error}</div>;
 
   return (
-    <div>
-      <h1>국내 페스티벌</h1>
-      {festivals.length > 0 ? (
-        festivals.map((festival, index) => (
-          <div key={index}>
-            <h2>{festival.prfnm._text}</h2>
-            <div
-              style={{
-                backgroundImage: `url(${festival.poster._text})`,
-              }}
-              className="performance_poster"
-            ></div>
-            <p>
-              공연 기간: {festival.prfpdfrom._text} ~ {festival.prfpdto._text}
-            </p>
-            <p>장소: {festival.fcltynm._text}</p>
-            <p>장르: {festival.genrenm._text}</p>
-          </div>
-        ))
-      ) : (
-        <p>페스티벌 정보를 찾을 수 없습니다.</p>
-      )}
-    </div>
+    <Container>
+      <Row>
+        {festivals.length > 0 ? (
+          festivals.map((item, index) => (
+            <Col lg={4} key={index}>
+              <FestivalCard item={item} />
+            </Col>
+          ))
+        ) : (
+          <p>국내 페스티벌 정보를 찾을 수 없습니다.</p>
+        )}
+      </Row>
+    </Container>
   );
 };
 

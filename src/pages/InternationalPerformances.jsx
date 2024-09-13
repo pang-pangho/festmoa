@@ -1,7 +1,8 @@
 // src/pages/InternationalPerformances.jsx
 import React, { useEffect, useState } from "react";
 import { fetchPerformances, fetchPerformanceDetails } from "../api/kopisApi";
-
+import PerformanceCard from "../components/FestivalCard"; // 공연 정보를 보여줄 카드 컴포넌트
+import { Container, Row, Col } from "react-bootstrap";
 const InternationalPerformances = () => {
   const [performances, setPerformances] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -53,30 +54,19 @@ const InternationalPerformances = () => {
   if (error) return <div>에러 발생: {error}</div>;
 
   return (
-    <div>
-      <h1>내한공연</h1>
-      {performances.length > 0 ? (
-        performances.map((performance, index) => (
-          <div key={index}>
-            <h2>{performance.prfnm._text}</h2>
-            <div
-              style={{
-                backgroundImage: `url(${performance.area._text})`,
-              }}
-              className="performance_poster"
-            ></div>
-            <p>
-              공연 기간: {performance.prfpdfrom._text} ~{" "}
-              {performance.prfpdto._text}
-            </p>
-            <p>장소: {performance.fcltynm._text}</p>
-            <p>장르: {performance.genrenm._text}</p>
-          </div>
-        ))
-      ) : (
-        <p>내한공연 정보를 찾을 수 없습니다.</p>
-      )}
-    </div>
+    <Container>
+      <Row>
+        {performances.length > 0 ? (
+          performances.map((item, index) => (
+            <Col lg={4} key={index}>
+              <PerformanceCard item={item} />
+            </Col>
+          ))
+        ) : (
+          <p>내한공연 정보를 찾을 수 없습니다.</p>
+        )}
+      </Row>
+    </Container>
   );
 };
 
