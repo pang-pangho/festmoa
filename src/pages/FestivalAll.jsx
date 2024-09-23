@@ -17,7 +17,6 @@ const FestivalAll = ({ festivalList }) => {
             filteredFestivals.map((item, index) => (
               <Col lg={4} key={index}>
                 {" "}
-                {/* 한 열에 3개의 아이템을 표시 */}
                 <FestivalCard item={item} />
               </Col>
             ))

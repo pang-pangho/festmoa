@@ -1,0 +1,27 @@
+.custom-footer {
+  background-color: #333;
+  color: white;
+  padding: 20px 0;
+  font-size: 14px;
+}
+
+.footer-info h5,
+.footer-social h5 {
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.footer-info p {
+  line-height: 1.6;
+}
+
+.footer-social .social-icons a {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.footer-social .social-icons img {
+  width: 24px;
+  height: 24px;
+  filter: invert(1); /* 아이콘 색상 반전 */
+}

@@ -1,12 +1,16 @@
 // src/pages/DomesticFestivals.jsx
 import React, { useEffect, useState } from "react";
-import FestivalCard from "../components/FestivalCard"; // 공연 정보를 보여줄 카드 컴포넌트
-import { Container, Row, Col } from "react-bootstrap"; // React Bootstrap 사용
-import { fetchPerformances } from "../api/kopisApi"; // API 호출 함수 임포트
+import FestivalCard from "../components/FestivalCard";
+import { Container, Row, Col } from "react-bootstrap";
+import { fetchPerformances } from "../api/kopisApi";
+import SearchBar from "../components/SearchBar";
+
 const DomesticFestivals = () => {
   const [festivals, setFestivals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [filteredFestivals, setFilteredFestivals] = useState([]);
+
   useEffect(() => {
     const loadFestivals = async () => {
       try {
@@ -16,10 +20,10 @@ const DomesticFestivals = () => {
           rows: 10,
           shcate: "CCCD",
         });
-        console.log("국내 페스티벌 데이터:", data);
 
         if (data?.dbs?.db) {
           setFestivals(data.dbs.db);
+          setFilteredFestivals(data.dbs.db);
         } else {
           setFestivals([]);
         }
@@ -33,14 +37,22 @@ const DomesticFestivals = () => {
     loadFestivals();
   }, []);
 
+  const handleSearch = (query) => {
+    const filtered = festivals.filter((festival) =>
+      festival.prfnm._text.includes(query)
+    );
+    setFilteredFestivals(filtered);
+  };
+
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>에러 발생: {error}</div>;
 
   return (
     <Container>
+      <SearchBar onSearch={handleSearch} /> {}
       <Row>
-        {festivals.length > 0 ? (
-          festivals.map((item, index) => (
+        {filteredFestivals.length > 0 ? (
+          filteredFestivals.map((item, index) => (
             <Col lg={4} key={index}>
               <FestivalCard item={item} />
             </Col>

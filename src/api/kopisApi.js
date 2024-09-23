@@ -3,16 +3,17 @@ import axios from "axios";
 import { convertXmlToJson } from "../utils/xmlToJson";
 
 const API_KEY = process.env.REACT_APP_KOPIS_API_KEY;
-const baseURL = "/openApi/restful/pblprfr";
+const baseURL = "/openApi/restful";
 
 const kopisApi = axios.create({
   baseURL,
   params: { service: API_KEY },
 });
 
+// 공연 목록을 가져오는 함수
 export const fetchPerformances = async (params) => {
   try {
-    const response = await kopisApi.get("", { params });
+    const response = await kopisApi.get("/pblprfr", { params });
     const jsonResult = convertXmlToJson(response.data);
     return jsonResult;
   } catch (error) {
@@ -20,9 +21,11 @@ export const fetchPerformances = async (params) => {
     throw error;
   }
 };
+
+// 공연 상세 정보를 가져오는 함수
 export const fetchPerformanceDetails = async (performanceId) => {
   try {
-    const response = await kopisApi.get(`/${performanceId}`, {
+    const response = await kopisApi.get(`/pblprfr/${performanceId}`, {
       params: { service: API_KEY },
     });
     const jsonResult = convertXmlToJson(response.data);
@@ -34,4 +37,15 @@ export const fetchPerformanceDetails = async (performanceId) => {
     );
     throw error;
   }
+};
+
+// 예매처 URL 추출 함수
+export const getTicketUrls = (details) => {
+  if (details?.dbs?.db?.styurls?.styurl) {
+    return details.dbs.db.styurls.styurl.map((url) => ({
+      url: url._text,
+      site: url._attributes.sty,
+    }));
+  }
+  return [];
 };
