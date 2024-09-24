@@ -1,4 +1,3 @@
-// src/pages/FestivalAll.jsx
 import React, { useEffect, useState } from "react";
 import FestivalCard from "./FestivalCard";
 import { Container, Row, Col } from "react-bootstrap";
@@ -17,6 +16,7 @@ const FestivalAll = ({ festivalList }) => {
             filteredFestivals.map((item, index) => (
               <Col lg={4} key={index}>
                 {" "}
+                {/* 한 열에 3개의 아이템을 표시 */}
                 <FestivalCard item={item} />
               </Col>
             ))

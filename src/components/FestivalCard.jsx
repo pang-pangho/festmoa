@@ -7,22 +7,24 @@ const FestivalCard = ({ item }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/detail/${item.mt20id._text}`);
+    navigate(`/detail/${item.mt20id._text}`); // 클릭 시 디테일 페이지로 이동
   };
 
   return (
-    <Card className="festival-card" onClick={handleClick}>
+    <Card
+      style={{ cursor: "pointer" }}
+      onClick={handleClick}
+      className="performance-card"
+    >
       <Card.Img
         variant="top"
-        src={item.poster._text}
-        alt={item.prfnm._text}
-        className="card-img-top"
+        src={item.poster?._text}
+        alt={item.prfnm?._text}
       />
       <Card.Body>
-        <Card.Title className="card-title">{item.prfnm._text}</Card.Title>
+        <Card.Title>{item.prfnm?._text}</Card.Title>
         <Card.Text>
-          {item.fcltynm._text} <br />
-          {item.prfpdfrom._text} ~ {item.prfpdto._text}
+          {item.prfpdfrom?._text} ~ {item.prfpdto?._text}
         </Card.Text>
       </Card.Body>
     </Card>

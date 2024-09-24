@@ -1,27 +1,31 @@
-.custom-footer {
-  background-color: #333;
-  color: white;
-  padding: 20px 0;
-  font-size: 14px;
+.footer {
+  background-color: #0064ff;
+  color: #ffffff;
+  padding: 40px 0;
+  text-align: center;
 }
 
-.footer-info h5,
-.footer-social h5 {
+.footer h5 {
   font-weight: bold;
   margin-bottom: 15px;
 }
 
-.footer-info p {
+.footer p {
   line-height: 1.6;
 }
 
-.footer-social .social-icons a {
-  display: inline-block;
-  margin-right: 15px;
+.footer-social .social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
-.footer-social .social-icons img {
-  width: 24px;
-  height: 24px;
-  filter: invert(1); /* 아이콘 색상 반전 */
+.footer-social .social-icons a {
+  color: white;
+  font-size: 24px;
+  transition: color 0.3s ease;
+}
+
+.footer-social .social-icons a:hover {
+  color: #0064ff;
 }

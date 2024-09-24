@@ -1,9 +1,7 @@
-// src/pages/DomesticFestivals.jsx
 import React, { useEffect, useState } from "react";
 import FestivalCard from "../components/FestivalCard";
 import { Container, Row, Col } from "react-bootstrap";
 import { fetchPerformances } from "../api/kopisApi";
-import SearchBar from "../components/SearchBar";
 
 const DomesticFestivals = () => {
   const [festivals, setFestivals] = useState([]);
@@ -49,7 +47,6 @@ const DomesticFestivals = () => {
 
   return (
     <Container>
-      <SearchBar onSearch={handleSearch} /> {}
       <Row>
         {filteredFestivals.length > 0 ? (
           filteredFestivals.map((item, index) => (
