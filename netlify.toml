@@ -1,13 +1,5 @@
-[build]
-  publish = "public"  # Netlify가 정적 파일을 제공할 디렉토리
-  functions = "netlify_functions"  # Functions 디렉토리 설정
-
-# 환경 변수를 설정할 수 있습니다. (선택사항)
-[build.environment]
-  REACT_APP_KOPIS_API_KEY = "YOUR_API_KEY_HERE"
-
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
+  from = "/openApi/*"
+  to = "https://kopis.or.kr/openApi/:splat"
   status = 200
   force = true
