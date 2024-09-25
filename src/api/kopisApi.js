@@ -1,22 +1,25 @@
 import axios from "axios";
 import { convertXmlToJson } from "../utils/xmlToJson";
 
-// 환경 변수에서 API 키 가져오기
-const API_KEY = process.env.REACT_APP_KOPIS_API_KEY;
+// 환경 변수에서 baseURL 가져오기
 const baseURL =
   process.env.NODE_ENV === "production"
-    ? "/.netlify/functions/kopisProxy" // Netlify 함수 사용
-    : "http://localhost:3000/openApi/restful"; // 로컬 환경
+    ? process.env.REACT_APP_BASE_URL_PROD
+    : process.env.REACT_APP_BASE_URL_LOCAL;
+
+const API_KEY = process.env.REACT_APP_KOPIS_API_KEY;
+console.log("API Key:", API_KEY); // API 키 확인
+console.log("Base URL:", baseURL); // baseURL 확인
 
 const kopisApi = axios.create({
   baseURL,
-  params: { service: API_KEY }, // API 키를 기본 파라미터로 추가
+  params: { service: API_KEY },
 });
 
 // 공연 목록을 가져오는 함수
 export const fetchPerformances = async (params) => {
   try {
-    const response = await kopisApi.get("", { params });
+    const response = await kopisApi.get("/pblprfr", { params });
     const jsonResult = convertXmlToJson(response.data);
     return jsonResult;
   } catch (error) {
@@ -28,7 +31,7 @@ export const fetchPerformances = async (params) => {
 // 공연 상세 정보를 가져오는 함수
 export const fetchPerformanceDetails = async (performanceId) => {
   try {
-    const response = await kopisApi.get(`/${performanceId}`, {
+    const response = await kopisApi.get(`/pblprfr/${performanceId}`, {
       params: { service: API_KEY },
     });
     const jsonResult = convertXmlToJson(response.data);
