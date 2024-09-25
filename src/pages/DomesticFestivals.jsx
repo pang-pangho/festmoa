@@ -1,27 +1,43 @@
 import React, { useEffect, useState } from "react";
 import FestivalCard from "../components/FestivalCard";
+import LoadingBar from "../components/LoadingBar";
 import { Container, Row, Col } from "react-bootstrap";
-import { fetchPerformances } from "../api/kopisApi";
+import { fetchPerformances, fetchPerformanceDetails } from "../api/kopisApi";
 
 const DomesticFestivals = () => {
   const [festivals, setFestivals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filteredFestivals, setFilteredFestivals] = useState([]);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const loadFestivals = async () => {
       try {
         setLoading(true);
+        setProgress(0); //
+
         const data = await fetchPerformances({
           cpage: 1,
           rows: 10,
           shcate: "CCCD",
         });
 
-        if (data?.dbs?.db) {
-          setFestivals(data.dbs.db);
-          setFilteredFestivals(data.dbs.db);
+        const festivalsData = data?.dbs?.db || [];
+        const totalFestivals = festivalsData.length;
+
+        if (totalFestivals > 0) {
+          const detailedFestivals = [];
+
+          for (let i = 0; i < festivalsData.length; i++) {
+            const details = await fetchPerformanceDetails(
+              festivalsData[i].mt20id._text
+            );
+            detailedFestivals.push(details?.dbs?.db || festivalsData[i]);
+
+            setProgress(((i + 1) / totalFestivals) * 100);
+          }
+
+          setFestivals(detailedFestivals);
         } else {
           setFestivals([]);
         }
@@ -35,21 +51,14 @@ const DomesticFestivals = () => {
     loadFestivals();
   }, []);
 
-  const handleSearch = (query) => {
-    const filtered = festivals.filter((festival) =>
-      festival.prfnm._text.includes(query)
-    );
-    setFilteredFestivals(filtered);
-  };
-
-  if (loading) return <div>로딩 중...</div>;
+  if (loading) return <LoadingBar progress={progress} />;
   if (error) return <div>에러 발생: {error}</div>;
 
   return (
     <Container>
       <Row>
-        {filteredFestivals.length > 0 ? (
-          filteredFestivals.map((item, index) => (
+        {festivals.length > 0 ? (
+          festivals.map((item, index) => (
             <Col lg={4} key={index}>
               <FestivalCard item={item} />
             </Col>
