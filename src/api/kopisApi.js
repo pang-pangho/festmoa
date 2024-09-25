@@ -1,9 +1,13 @@
-// src/api/kopisApi.js
 import axios from "axios";
 import { convertXmlToJson } from "../utils/xmlToJson";
 
+// 환경 변수에서 baseURL 가져오기
+const baseURL =
+  process.env.NODE_ENV === "production"
+    ? process.env.REACT_APP_BASE_URL_PROD
+    : process.env.REACT_APP_BASE_URL_LOCAL;
+
 const API_KEY = process.env.REACT_APP_KOPIS_API_KEY;
-const baseURL = "/openApi/restful";
 
 const kopisApi = axios.create({
   baseURL,
