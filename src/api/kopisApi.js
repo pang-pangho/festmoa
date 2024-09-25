@@ -1,16 +1,15 @@
 import axios from "axios";
 import { convertXmlToJson } from "../utils/xmlToJson";
 
-// 환경 변수에서 baseURL 가져오기
+const API_KEY = process.env.REACT_APP_KOPIS_API_KEY;
 const baseURL =
   process.env.NODE_ENV === "production"
     ? process.env.REACT_APP_BASE_URL_PROD
     : process.env.REACT_APP_BASE_URL_LOCAL;
 
-const API_KEY = process.env.REACT_APP_KOPIS_API_KEY;
 console.log("API Key:", API_KEY); // API 키 확인
 console.log("Base URL:", baseURL); // baseURL 확인
-console.log("API Key:", process.env.REACT_APP_KOPIS_API_KEY);
+
 const kopisApi = axios.create({
   baseURL,
   params: { service: API_KEY },
