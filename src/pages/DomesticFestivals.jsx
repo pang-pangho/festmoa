@@ -1,55 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import FestivalCard from "../components/FestivalCard";
 import LoadingBar from "../components/LoadingBar";
-import { Container, Row, Col } from "react-bootstrap";
-import { fetchPerformances, fetchPerformanceDetails } from "../api/kopisApi";
+import useLoadData from "../hooks/useLoadData";
 
 const DomesticFestivals = () => {
-  const [festivals, setFestivals] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const loadFestivals = async () => {
-      try {
-        setLoading(true);
-        setProgress(0); //
-
-        const data = await fetchPerformances({
-          cpage: 1,
-          rows: 10,
-          shcate: "CCCD",
-        });
-
-        const festivalsData = data?.dbs?.db || [];
-        const totalFestivals = festivalsData.length;
-
-        if (totalFestivals > 0) {
-          const detailedFestivals = [];
-
-          for (let i = 0; i < festivalsData.length; i++) {
-            const details = await fetchPerformanceDetails(
-              festivalsData[i].mt20id._text
-            );
-            detailedFestivals.push(details?.dbs?.db || festivalsData[i]);
-
-            setProgress(((i + 1) / totalFestivals) * 100);
-          }
-
-          setFestivals(detailedFestivals);
-        } else {
-          setFestivals([]);
-        }
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadFestivals();
-  }, []);
+  const {
+    data: festivals,
+    loading,
+    error,
+    progress,
+  } = useLoadData("CCCD", false, "domestic-festivals");
 
   if (loading) return <LoadingBar progress={progress} />;
   if (error) return <div>에러 발생: {error}</div>;
