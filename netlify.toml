@@ -1,5 +1,5 @@
 [[redirects]]
   from = "/openApi/*"
-  to = "https://kopis.or.kr/openApi/:splat"
+  to = "/.netlify/functions/kopisProxy" 
   status = 200
   force = true

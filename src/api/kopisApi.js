@@ -1,15 +1,16 @@
 import axios from "axios";
 import { convertXmlToJson } from "../utils/xmlToJson";
 
+// 환경 변수에서 API 키 가져오기
 const API_KEY = process.env.REACT_APP_KOPIS_API_KEY;
 const baseURL =
   process.env.NODE_ENV === "production"
-    ? "/.netlify/functions/kopisProxy"
-    : "http://localhost:3000/openApi/restful"; // 로컬 서버 설정 필요 시 수정
+    ? "/.netlify/functions/kopisProxy" // Netlify 함수 사용
+    : "http://localhost:3000/openApi/restful"; // 로컬 환경
 
 const kopisApi = axios.create({
   baseURL,
-  params: { service: API_KEY },
+  params: { service: API_KEY }, // API 키를 기본 파라미터로 추가
 });
 
 // 공연 목록을 가져오는 함수
