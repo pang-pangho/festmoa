@@ -4,9 +4,9 @@ import { convertXmlToJson } from "../utils/xmlToJson";
 // 환경 변수에서 baseURL 가져오기
 const baseURL =
   process.env.NODE_ENV === "production"
-    ? "/api/kopisProxy"
+    ? process.env.REACT_APP_BASE_URL_PROD
     : "http://localhost:3000/openApi/restful"; // 로컬 테스트 시에는 KOPIS API를 직접 호출
-
+console.log(process.env.NODE_EN);
 const API_KEY = process.env.REACT_APP_KOPIS_API_KEY;
 
 const kopisApi = axios.create({
