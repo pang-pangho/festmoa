@@ -1,7 +1,0 @@
-[build]
-  functions = "netlify/functions"
-
-[[redirects]]
-  from = "/openApi/*"
-  to = "https://kopis.or.kr/openApi/:splat"
-  status = 200
