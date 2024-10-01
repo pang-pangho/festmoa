@@ -8,7 +8,8 @@ const baseURL =
     : "http://localhost:3000/openApi/restful"; // 로컬 테스트 시에는 KOPIS API를 직접 호출
 console.log(process.env.NODE_ENV);
 const API_KEY = process.env.REACT_APP_KOPIS_API_KEY;
-
+console.log("API Key:", API_KEY); // API 키 확인
+console.log("Base URL:", baseURL); // baseURL 확인
 const kopisApi = axios.create({
   baseURL,
   params: { service: API_KEY },
@@ -20,6 +21,7 @@ export const fetchPerformances = async (params) => {
     const response = await kopisApi.get("/pblprfr", { params });
     console.log("Raw XML Response:", response.data); // 응답 데이터 확인
     const jsonResult = convertXmlToJson(response.data);
+    console.log("JSON Result:", jsonResult); // 변환된 JSON 데이터 확인
     return jsonResult;
   } catch (error) {
     console.error("API 호출 실패:", error);
