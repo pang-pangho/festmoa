@@ -12,7 +12,6 @@ const MainPage = () => {
   );
 
   useEffect(() => {
-    // 국내공연 데이터 가져오기
     const loadDomesticPerformances = async () => {
       try {
         const data = await fetchPerformances({
@@ -20,13 +19,15 @@ const MainPage = () => {
           rows: 4,
           shcate: "AAAA", // 국내 공연 카테고리
         });
-        setDomesticPerformances(data?.dbs?.db || []);
+
+        // 배열 확인
+        const performances = Array.isArray(data?.dbs?.db) ? data.dbs.db : [];
+        setDomesticPerformances(performances);
       } catch (error) {
         console.error("국내공연 데이터 로딩 실패:", error);
       }
     };
 
-    // 페스티벌 데이터 가져오기
     const loadFestivals = async () => {
       try {
         const data = await fetchPerformances({
@@ -34,35 +35,34 @@ const MainPage = () => {
           rows: 4,
           shcate: "CCCD", // 페스티벌 카테고리
         });
-        setFestivals(data?.dbs?.db || []);
+
+        const festivalsData = Array.isArray(data?.dbs?.db) ? data.dbs.db : [];
+        setFestivals(festivalsData);
       } catch (error) {
         console.error("페스티벌 데이터 로딩 실패:", error);
       }
     };
 
-    // 내한공연 데이터 가져오기
     const loadInternationalPerformances = async () => {
       try {
         const data = await fetchPerformances({
           cpage: 1,
-          rows: 30, // 여러 공연을 불러오도록 설정
-          shcate: "CCCD", // 내한공연 카테고리 설정
+          rows: 30,
+          shcate: "CCCD", // 내한공연 카테고리
         });
 
-        // 공연 목록에서 ID 추출하여 병렬로 상세 정보 요청
-        const performanceIds = data?.dbs?.db.map(
-          (performance) => performance.mt20id._text
-        );
+        const performanceIds = Array.isArray(data?.dbs?.db)
+          ? data.dbs.db.map((performance) => performance.mt20id._text)
+          : [];
 
-        // 병렬로 공연 상세 정보 요청
         const performanceDetailsPromises = performanceIds.map((id) =>
           fetchPerformanceDetails(id)
         );
+
         const detailedPerformances = await Promise.all(
           performanceDetailsPromises
         );
 
-        // 'visit' 필드를 기준으로 내한공연만 필터링
         const filteredPerformances = detailedPerformances
           .filter((detail) => detail?.dbs?.db?.visit?._text === "Y")
           .map((detail) => detail.dbs.db);
