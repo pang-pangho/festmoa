@@ -12,7 +12,7 @@ console.log("API Key:", API_KEY); // API 키 확인
 console.log("Base URL:", baseURL); // baseURL 확인
 const kopisApi = axios.create({
   baseURL,
-  params: { service: API_KEY },
+  params: { service: process.env.REACT_APP_KOPIS_API_KEY },
 });
 
 // 공연 목록을 가져오는 함수
