@@ -1,15 +1,15 @@
 const axios = require("axios");
 
 export default async function handler(req, res) {
-  const { query } = req; // 요청된 쿼리 파라미터를 가져옵니다.
-  const API_KEY = process.env.REACT_APP_KOPIS_API_KEY;
-  const API_URL = `https://kopis.or.kr/openApi/restful/pblprfr?service=${
-    process.env.REACT_APP_KOPIS_API_KEY
-  }&${new URLSearchParams(query).toString()}`;
+  const { query } = req;
+  const API_KEY = process.env.KOPIS_API_KEY; // 서버 환경 변수
+  const API_URL = `https://kopis.or.kr/openApi/restful/pblprfr?service=${API_KEY}&${new URLSearchParams(
+    query
+  ).toString()}`;
 
   try {
-    const response = await axios.get(API_URL); // KOPIS API에 요청을 보냅니다.
-    res.status(200).json(response.data); // 응답 데이터를 JSON으로 반환합니다.
+    const response = await axios.get(API_URL);
+    res.status(200).json(response.data);
   } catch (error) {
     res.status(error.response?.status || 500).json({
       message: error.message,

@@ -35,6 +35,12 @@
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
+  "scripts": {
+    "dev": "webpack-dev-server --mode development",
+    "dev:netlify": "netlify dev",
+    "build": "webpack --mode production",
+    "lint": "eslint --fix --ext .js,.vue"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
