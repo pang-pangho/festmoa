@@ -2,7 +2,7 @@ const axios = require("axios");
 
 exports.handler = async function (event) {
   const { queryStringParameters } = event;
-  const API_KEY = process.env.REACT_APP_KOPIS_API_KEY;
+  const API_KEY = process.env.KOPIS_API_KEY;
   const API_URL = `https://kopis.or.kr/openApi/restful/pblprfr?service=${API_KEY}&${new URLSearchParams(
     queryStringParameters
   ).toString()}`;
