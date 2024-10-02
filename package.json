@@ -25,15 +25,8 @@
     "react-router-dom": "^6.26.2",
     "react-scripts": "5.0.1",
     "request": "^2.88.2",
-    "stream-browserify": "^3.0.0",
     "web-vitals": "^2.1.4",
     "xml-js": "^1.6.11"
-  },
-  "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
   },
   "scripts": {
     "dev": "webpack-dev-server --mode development",
@@ -58,5 +51,15 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.4",
+    "@babel/preset-react": "^7.24.7",
+    "babel-loader": "^9.2.1",
+    "css-loader": "^7.1.2",
+    "stream-browserify": "^3.0.0",
+    "style-loader": "^4.0.0",
+    "webpack-cli": "^5.1.4"
   }
 }
