@@ -18,7 +18,15 @@ const kopisApi = axios.create({
 // 공연 목록을 가져오는 함수
 export const fetchPerformances = async (params) => {
   try {
-    const response = await kopisApi.get("/pblprfr", { params });
+    // 한글이나 특수 문자를 인코딩
+    const encodedParams = { ...params };
+    for (let key in encodedParams) {
+      if (encodedParams[key]) {
+        encodedParams[key] = encodeURIComponent(encodedParams[key]);
+      }
+    }
+
+    const response = await kopisApi.get("/pblprfr", { params: encodedParams });
     console.log("Raw XML Response:", response.data); // 응답 데이터 확인
     const jsonResult = convertXmlToJson(response.data);
     console.log("JSON Result:", jsonResult); // 변환된 JSON 데이터 확인
@@ -32,7 +40,8 @@ export const fetchPerformances = async (params) => {
 // 공연 상세 정보를 가져오는 함수
 export const fetchPerformanceDetails = async (performanceId) => {
   try {
-    const response = await kopisApi.get(`/pblprfr/${performanceId}`, {
+    const encodedPerformanceId = encodeURIComponent(performanceId); // 공연 ID 인코딩
+    const response = await kopisApi.get(`/pblprfr/${encodedPerformanceId}`, {
       params: { service: API_KEY },
     });
     const jsonResult = convertXmlToJson(response.data);
@@ -44,15 +53,4 @@ export const fetchPerformanceDetails = async (performanceId) => {
     );
     throw error;
   }
-};
-
-// 예매처 URL 추출 함수
-export const getTicketUrls = (details) => {
-  if (details?.dbs?.db?.styurls?.styurl) {
-    return details.dbs.db.styurls.styurl.map((url) => ({
-      url: url._text,
-      site: url._attributes.sty,
-    }));
-  }
-  return [];
 };

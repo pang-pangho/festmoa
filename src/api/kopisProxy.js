@@ -1,22 +1,16 @@
 const axios = require("axios");
+
 exports.handler = async function (event, context) {
   const { queryStringParameters } = event;
 
-  // service 필드를 queryStringParameters에서 제거
-  const queryParams = { ...queryStringParameters };
-  delete queryParams.service;
-
-  // 콘솔 로그로 쿼리 파라미터를 찍습니다.
-  console.log("Query Parameters (without service): ", queryParams);
+  // 쿼리 파라미터 인코딩 추가
+  const encodedParams = new URLSearchParams();
+  for (const [key, value] of Object.entries(queryStringParameters)) {
+    encodedParams.append(key, encodeURIComponent(value));
+  }
 
   const API_KEY = process.env.KOPIS_API_KEY;
-
-  // API 키 확인
-  console.log("API Key: ", API_KEY);
-
-  const API_URL = `https://kopis.or.kr/openApi/restful/pblprfr?service=${API_KEY}&${new URLSearchParams(
-    queryParams
-  ).toString()}`;
+  const API_URL = `https://kopis.or.kr/openApi/restful/pblprfr?service=${API_KEY}&${encodedParams}`;
 
   try {
     const response = await axios.get(API_URL);
