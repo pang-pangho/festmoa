@@ -10,7 +10,7 @@ const DomesticPerformance = () => {
     loading,
     error,
     progress,
-  } = useLoadData("AAAA", false, "domestic-performance");
+  } = useLoadData("AAAA", 10, "domestic-performance");
 
   if (loading) return <LoadingBar progress={progress} />;
   if (error) return <div>에러 발생: {error}</div>;

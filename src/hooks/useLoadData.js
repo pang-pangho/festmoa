@@ -22,11 +22,9 @@ const useLoadData = (category, filterVisit = false, cacheKey) => {
 
         const performances = await fetchPerformances({
           cpage: 1,
-          rows: 10,
+          rows: 100,
           shcate: category,
         });
-
-        console.log("API Response Data:", performances);
 
         const performanceList = performances?.dbs?.db || [];
         const total = performanceList.length;
@@ -51,6 +49,7 @@ const useLoadData = (category, filterVisit = false, cacheKey) => {
           }
 
           setData(detailedData);
+
           localStorage.setItem(cacheKey, JSON.stringify(detailedData));
         } else {
           setData([]);
