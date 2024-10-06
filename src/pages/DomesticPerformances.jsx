@@ -15,6 +15,8 @@ const DomesticPerformance = () => {
   if (loading) return <LoadingBar progress={progress} />;
   if (error) return <div>에러 발생: {error}</div>;
 
+  console.log("Fetched Domestic Performances:", performanceList);
+
   return (
     <Container>
       <Row>

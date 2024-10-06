@@ -15,6 +15,8 @@ const DomesticFestivals = () => {
   if (loading) return <LoadingBar progress={progress} />;
   if (error) return <div>에러 발생: {error}</div>;
 
+  console.log("Fetched Domestic Festivals:", festivals);
+
   return (
     <Container>
       <Row>

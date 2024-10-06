@@ -15,6 +15,8 @@ const InternationalPerformances = () => {
   if (loading) return <LoadingBar progress={progress} />;
   if (error) return <div>에러 발생: {error}</div>;
 
+  console.log("Fetched International Performances:", performances);
+
   return (
     <Container>
       <Row>
@@ -25,7 +27,7 @@ const InternationalPerformances = () => {
             </Col>
           ))
         ) : (
-          <p>내한공연 정보를 찾을 수 없습니다.</p>
+          <p>내한 공연 정보를 찾을 수 없습니다.</p>
         )}
       </Row>
     </Container>
