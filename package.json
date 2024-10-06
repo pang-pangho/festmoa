@@ -29,10 +29,10 @@
     "xml-js": "^1.6.11"
   },
   "scripts": {
-    "dev": "webpack-dev-server --mode development",
-    "dev:netlify": "netlify dev",
-    "build": "webpack --mode production",
-    "lint": "eslint --fix --ext .js,.vue"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
