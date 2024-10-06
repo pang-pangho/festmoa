@@ -7,7 +7,7 @@ const FestivalCard = ({ item }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/detail/${item.mt20id._text}`); // 클릭 시 디테일 페이지로 이동
+    navigate(`/detail/${item.mt20id?._text || ""}`); // 안전하게 mt20id 접근
   };
 
   return (
@@ -18,13 +18,14 @@ const FestivalCard = ({ item }) => {
     >
       <Card.Img
         variant="top"
-        src={item.poster?._text}
-        alt={item.prfnm?._text}
+        src={item.poster?._text || "기본 이미지 URL"}
+        alt={item.prfnm?._text || "제목 없음"}
       />
       <Card.Body>
-        <Card.Title>{item.prfnm?._text}</Card.Title>
+        <Card.Title>{item.prfnm?._text || "제목 없음"}</Card.Title>
         <Card.Text>
-          {item.prfpdfrom?._text} ~ {item.prfpdto?._text}
+          {item.prfpdfrom?._text || "시작일 없음"} ~{" "}
+          {item.prfpdto?._text || "종료일 없음"}
         </Card.Text>
       </Card.Body>
     </Card>

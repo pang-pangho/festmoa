@@ -18,7 +18,7 @@ const InternationalPerformances = () => {
   return (
     <Container>
       <Row>
-        {performances.length > 0 ? (
+        {performances?.length > 0 ? (
           performances.map((item, index) => (
             <Col lg={4} key={index}>
               <PerformanceCard item={item} />

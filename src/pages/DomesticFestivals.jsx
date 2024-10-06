@@ -18,7 +18,7 @@ const DomesticFestivals = () => {
   return (
     <Container>
       <Row>
-        {festivals.length > 0 ? (
+        {festivals?.length > 0 ? (
           festivals.map((item, index) => (
             <Col lg={4} key={index}>
               <FestivalCard item={item} />

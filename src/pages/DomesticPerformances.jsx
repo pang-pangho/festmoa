@@ -18,7 +18,7 @@ const DomesticPerformance = () => {
   return (
     <Container>
       <Row>
-        {performanceList.length > 0 ? (
+        {performanceList?.length > 0 ? (
           performanceList.map((item, index) => (
             <Col lg={4} key={index}>
               <PerformanceCard item={item} />
