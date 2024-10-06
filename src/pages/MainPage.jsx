@@ -16,7 +16,7 @@ const MainPage = () => {
       try {
         const data = await fetchPerformances({
           cpage: 1,
-          rows: 2,
+          rows: 4,
           shcate: "AAAA", // 국내 공연 카테고리
         });
 
@@ -32,7 +32,7 @@ const MainPage = () => {
       try {
         const data = await fetchPerformances({
           cpage: 1,
-          rows: 2,
+          rows: 4,
           shcate: "CCCD", // 페스티벌 카테고리
         });
 
