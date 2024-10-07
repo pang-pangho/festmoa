@@ -1,0 +1,20 @@
+{
+	"geolocation": {
+		"data": {
+			"city": "Chuncheon",
+			"country": {
+				"code": "KR",
+				"name": "South Korea"
+			},
+			"subdivision": {
+				"code": "42",
+				"name": "Gangwon-do"
+			},
+			"timezone": "Asia/Seoul",
+			"latitude": 37.8897,
+			"longitude": 127.736,
+			"postalCode": "242"
+		},
+		"timestamp": 1728296664013
+	}
+}
