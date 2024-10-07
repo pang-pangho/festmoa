@@ -9,6 +9,7 @@ const FestivalCard = ({ item }) => {
   const handleClick = () => {
     navigate(`/detail/${item.mt20id?._text || ""}`); // 안전하게 mt20id 접근
   };
+  console.log("페스티벌 디테일 : ", { item });
 
   return (
     <Card
