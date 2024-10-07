@@ -3,14 +3,26 @@ const axios = require("axios");
 exports.handler = async function (event, context) {
   const { queryStringParameters } = event;
 
-  // 쿼리 파라미터 인코딩 추가
-  const encodedParams = new URLSearchParams();
-  for (const [key, value] of Object.entries(queryStringParameters)) {
-    encodedParams.append(key, encodeURIComponent(value));
+  // 필수 파라미터 확인
+  if (
+    !queryStringParameters.cpage ||
+    !queryStringParameters.rows ||
+    !queryStringParameters.shcate
+  ) {
+    return {
+      statusCode: 400,
+      body: "필수 파라미터(cpage, rows, shcate)가 누락되었습니다.",
+    };
   }
 
   const API_KEY = process.env.KOPIS_API_KEY;
-  const API_URL = `https://kopis.or.kr/openApi/restful/pblprfr?service=${API_KEY}&${encodedParams}`;
+
+  const API_URL = `https://kopis.or.kr/openApi/restful/pblprfr?service=${API_KEY}&${new URLSearchParams(
+    queryStringParameters
+  ).toString()}`;
+
+  // API URL을 콘솔에 출력해 확인
+  console.log("API URL:", API_URL);
 
   try {
     const response = await axios.get(API_URL);
