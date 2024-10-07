@@ -1,4 +1,5 @@
 const axios = require("axios");
+
 exports.handler = async function (event, context) {
   const { queryStringParameters } = event;
 
@@ -6,17 +7,15 @@ exports.handler = async function (event, context) {
   const queryParams = { ...queryStringParameters };
   delete queryParams.service;
 
-  // 콘솔 로그로 쿼리 파라미터를 찍습니다.
-  console.log("Query Parameters (without service): ", queryParams);
-
   const API_KEY = process.env.KOPIS_API_KEY;
 
-  // API 키 확인
-  console.log("API Key: ", API_KEY);
-
+  // API 호출 URL 확인
   const API_URL = `https://kopis.or.kr/openApi/restful/pblprfr?service=${API_KEY}&${new URLSearchParams(
     queryParams
   ).toString()}`;
+
+  // 콘솔에 출력해서 URL이 제대로 만들어졌는지 확인
+  console.log("API URL:", API_URL);
 
   try {
     const response = await axios.get(API_URL);
