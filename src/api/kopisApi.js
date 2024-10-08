@@ -19,9 +19,8 @@ const kopisApi = axios.create({
 export const fetchPerformances = async (params) => {
   try {
     const response = await kopisApi.get("/pblprfr", { params });
-    console.log("Raw XML Response:", response.data); // 응답 데이터 확인
+    console.log("Params:", params);
     const jsonResult = convertXmlToJson(response.data);
-    console.log("JSON Result:", jsonResult); // 변환된 JSON 데이터 확인
     return jsonResult;
   } catch (error) {
     console.error("API 호출 실패:", error);

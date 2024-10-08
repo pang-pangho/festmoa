@@ -16,7 +16,7 @@ const DomesticFestivals = () => {
         const data = await fetchPerformances({
           cpage: 1,
           rows: 4, // 원하는 개수로 변경 가능
-          shcate: "CCCD", // 페스티벌 카테고리
+          shcate: "AAAA", // 페스티벌 카테고리
         });
 
         // 가져온 데이터를 배열로 설정
