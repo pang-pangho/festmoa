@@ -23,7 +23,7 @@ const InternationalPerformances = () => {
         const performancesList = Array.isArray(data?.dbs?.db)
           ? data.dbs.db
           : [];
-
+        console.log("리스트:", performancesList);
         // 2. 공연 ID 목록으로 상세 정보 조회
         const detailedPerformancesPromises = performancesList.map(
           (item) => fetchPerformanceDetails(item.mt20id._text) // 공연 ID로 상세 조회
