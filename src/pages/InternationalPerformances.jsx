@@ -20,36 +20,37 @@ const InternationalPerformances = () => {
 
         // 1. 내한 공연 목록 데이터 가져오기
         const data = await fetchPerformances(params);
+
+        // 2. 공연 목록에서 공연 ID만 추출 (ID가 없는 항목은 제외)
         const performancesList = Array.isArray(data?.dbs?.db)
           ? data.dbs.db.filter((item) => item?.mt20id?._text) // 공연 ID가 존재하는 항목만 필터링
           : [];
-        console.log("performancesList:", performancesList);
-        // 2. 공연 ID 목록으로 상세 정보 조회
-        const detailedPerformancesPromises = performancesList.map(
-          (item) => fetchPerformanceDetails(item.mt20id._text) // 공연 ID로 상세 조회
-        );
-        console.log(
-          "detailedPerformancesPromises:",
-          detailedPerformancesPromises
-        );
+
+        console.log("performancesList:", performancesList); // 공연 목록 출력
+
+        // 3. 공연 ID 목록으로 상세 정보 조회 (Promise.allSettled 사용)
+        const detailedPerformancesPromises = performancesList.map((item) => {
+          const performanceId = item.mt20id._text;
+          console.log("Fetching details for performance ID:", performanceId); // 공연 ID 출력
+          return fetchPerformanceDetails(performanceId);
+        });
 
         const detailedPerformances = await Promise.allSettled(
           detailedPerformancesPromises
         );
 
-        // 성공한 요청만 필터링
+        // 4. 성공한 요청만 필터링
         const successfulDetails = detailedPerformances
-          .filter((result) => result.status === "fulfilled")
-          .map((result) => result.value);
+          .filter(
+            (result) =>
+              result.status === "fulfilled" &&
+              result.value?.dbs?.db?.visit?._text === "Y"
+          )
+          .map((result) => result.value.dbs.db);
 
-        console.log("successfulDetails:", successfulDetails);
+        console.log("successfulDetails:", successfulDetails); // 성공한 상세 정보 출력
 
-        // 3. 'visit' 필드가 'Y'인 내한 공연만 필터링
-        const filteredPerformances = successfulDetails
-          .filter((detail) => detail?.dbs?.db?.visit?._text === "Y")
-          .map((detail) => detail.dbs.db);
-        console.log("filteredPerformances:", filteredPerformances);
-        setPerformances(filteredPerformances);
+        setPerformances(successfulDetails); // 필터링된 공연 정보를 상태에 저장
       } catch (error) {
         console.error("내한 공연 데이터 로딩 실패:", error);
         setError(error.message);
