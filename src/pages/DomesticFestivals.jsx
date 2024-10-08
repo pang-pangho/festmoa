@@ -15,7 +15,7 @@ const DomesticFestivals = () => {
         const params = {
           cpage: 1,
           rows: 4, // 원하는 개수로 변경 가능
-          shcate: "AAAA", // 페스티벌 카테고리
+          shcate: "CCCD", // 페스티벌 카테고리
         };
 
         // 쿼리 파라미터가 제대로 전달되는지 확인
