@@ -24,10 +24,18 @@ const InternationalPerformances = () => {
         // 내한 공연 데이터 가져오기
         const data = await fetchPerformances(params);
 
+        // API 응답 데이터 확인
+        console.log("내한공연 API 응답 데이터:", data);
+
         // 가져온 데이터를 배열로 설정 후, 'visit' 필드가 'Y'인 내한 공연만 필터링
+        // 'visit' 필드가 없을 경우에도 데이터가 표시되도록 수정
         const performancesData = Array.isArray(data?.dbs?.db)
-          ? data.dbs.db.filter((item) => item?.visit?._text === "Y") // visit 필드가 'Y'인 데이터만 필터링
+          ? data.dbs.db.filter(
+              (item) => item?.visit?._text === "Y" || item?.visit == null
+            ) // visit 필드가 'Y'이거나 필드가 없을 경우 필터링
           : [];
+
+        console.log("필터링된 내한공연 데이터:", performancesData);
         setPerformances(performancesData);
       } catch (error) {
         console.error("내한 공연 데이터 로딩 실패:", error);
