@@ -29,18 +29,28 @@ export const fetchPerformances = async (params) => {
 };
 
 // 공연 상세 정보를 가져오는 함수
+// 공연 상세 정보를 가져오는 함수
 export const fetchPerformanceDetails = async (performanceId) => {
   try {
+    // 공연 ID를 콘솔에 출력해서 제대로 전달되고 있는지 확인
+    console.log("Fetching details for performance ID:", performanceId);
+
+    // 요청 URL에 공연 ID를 정확하게 넣어서 요청
     const response = await kopisApi.get(`/pblprfr/${performanceId}`, {
       params: { service: API_KEY },
     });
+
+    // 응답 결과를 콘솔에 출력해서 확인
+    console.log("Performance details response:", response.data);
+
+    // XML을 JSON으로 변환하여 반환
     const jsonResult = convertXmlToJson(response.data);
+
+    // 변환된 JSON 결과를 반환
     return jsonResult;
   } catch (error) {
-    console.error(
-      "상세 정보 호출 실패:",
-      error.response ? error.response.data : error.message
-    );
+    // 에러 발생 시 에러 메시지를 출력하고 throw
+    console.error("Performance details fetching failed:", error.message);
     throw error;
   }
 };
