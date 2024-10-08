@@ -24,9 +24,9 @@ const InternationalPerformances = () => {
         // 내한 공연 데이터 가져오기
         const data = await fetchPerformances(params);
 
-        // 가져온 데이터를 배열로 설정
+        // 가져온 데이터를 배열로 설정 후, 'visit' 필드가 'Y'인 내한 공연만 필터링
         const performancesData = Array.isArray(data?.dbs?.db)
-          ? data.dbs.db
+          ? data.dbs.db.filter((item) => item?.visit?._text === "Y") // visit 필드가 'Y'인 데이터만 필터링
           : [];
         setPerformances(performancesData);
       } catch (error) {
