@@ -14,7 +14,7 @@ const InternationalPerformances = () => {
       try {
         const params = {
           cpage: 1,
-          rows: 10, // 원하는 개수로 변경 가능
+          rows: 100, // 원하는 개수로 변경 가능
           shcate: "CCCD", // 내한 공연 카테고리
         };
 
