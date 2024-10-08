@@ -23,21 +23,24 @@ const InternationalPerformances = () => {
         const performancesList = Array.isArray(data?.dbs?.db)
           ? data.dbs.db
           : [];
-        console.log("리스트:", performancesList);
         // 2. 공연 ID 목록으로 상세 정보 조회
         const detailedPerformancesPromises = performancesList.map(
           (item) => fetchPerformanceDetails(item.mt20id._text) // 공연 ID로 상세 조회
         );
-
+        console.log(
+          "detailedPerformancesPromises:",
+          detailedPerformancesPromises
+        );
         const detailedPerformances = await Promise.all(
           detailedPerformancesPromises
         );
+        console.log("detailedPerformances:", detailedPerformances);
 
         // 3. 'visit' 필드가 'Y'인 내한 공연만 필터링
         const filteredPerformances = detailedPerformances
           .filter((detail) => detail?.dbs?.db?.visit?._text === "Y")
           .map((detail) => detail.dbs.db);
-
+        console.log("filteredPerformances:", filteredPerformances);
         setPerformances(filteredPerformances);
       } catch (error) {
         console.error("내한 공연 데이터 로딩 실패:", error);
