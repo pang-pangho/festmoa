@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import PerformanceCard from "../components/FestivalCard";
-import { fetchPerformances } from "../api/kopisApi";
+import { fetchPerformances, fetchPerformanceDetails } from "../api/kopisApi";
 import LoadingBar from "../components/LoadingBar";
 
 const InternationalPerformances = () => {
@@ -18,25 +18,27 @@ const InternationalPerformances = () => {
           shcate: "CCCD", // 내한 공연 카테고리
         };
 
-        // 쿼리 파라미터가 제대로 전달되는지 확인
-        console.log("쿼리 파라미터 확인:", params);
-
-        // 내한 공연 데이터 가져오기
+        // 1. 내한 공연 목록 데이터 가져오기
         const data = await fetchPerformances(params);
-
-        // API 응답 데이터 확인
-        console.log("내한공연 API 응답 데이터:", data);
-
-        // 가져온 데이터를 배열로 설정 후, 'visit' 필드가 'Y'인 내한 공연만 필터링
-        // 'visit' 필드가 없을 경우에도 데이터가 표시되도록 수정
-        const performancesData = Array.isArray(data?.dbs?.db)
-          ? data.dbs.db.filter(
-              (item) => item?.visit?._text === "Y" || item?.visit == null
-            ) // visit 필드가 'Y'이거나 필드가 없을 경우 필터링
+        const performancesList = Array.isArray(data?.dbs?.db)
+          ? data.dbs.db
           : [];
 
-        console.log("필터링된 내한공연 데이터:", performancesData);
-        setPerformances(performancesData);
+        // 2. 공연 ID 목록으로 상세 정보 조회
+        const detailedPerformancesPromises = performancesList.map(
+          (item) => fetchPerformanceDetails(item.mt20id._text) // 공연 ID로 상세 조회
+        );
+
+        const detailedPerformances = await Promise.all(
+          detailedPerformancesPromises
+        );
+
+        // 3. 'visit' 필드가 'Y'인 내한 공연만 필터링
+        const filteredPerformances = detailedPerformances
+          .filter((detail) => detail?.dbs?.db?.visit?._text === "Y")
+          .map((detail) => detail.dbs.db);
+
+        setPerformances(filteredPerformances);
       } catch (error) {
         console.error("내한 공연 데이터 로딩 실패:", error);
         setError(error.message);
