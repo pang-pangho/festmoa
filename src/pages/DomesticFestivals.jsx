@@ -12,12 +12,17 @@ const DomesticFestivals = () => {
   useEffect(() => {
     const loadFestivals = async () => {
       try {
-        // 국내 페스티벌 데이터 가져오기
-        const data = await fetchPerformances({
+        const params = {
           cpage: 1,
           rows: 4, // 원하는 개수로 변경 가능
           shcate: "AAAA", // 페스티벌 카테고리
-        });
+        };
+
+        // 쿼리 파라미터가 제대로 전달되는지 확인
+        console.log("쿼리 파라미터 확인:", params);
+
+        // 국내 페스티벌 데이터 가져오기
+        const data = await fetchPerformances(params);
 
         // 가져온 데이터를 배열로 설정
         const festivalsData = Array.isArray(data?.dbs?.db) ? data.dbs.db : [];
