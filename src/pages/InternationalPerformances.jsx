@@ -38,7 +38,7 @@ const InternationalPerformances = () => {
         const detailedPerformances = await Promise.allSettled(
           detailedPerformancesPromises
         );
-
+        console.log("detailedPerformances", detailedPerformances);
         // 4. 성공한 요청만 필터링
         const successfulDetails = detailedPerformances
           .filter(
@@ -58,7 +58,7 @@ const InternationalPerformances = () => {
         setLoading(false); // 로딩 상태 해제
       }
     };
-
+    console.log("performances", performances);
     loadInternationalPerformances(); // 데이터 로드
   }, []);
 
