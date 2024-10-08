@@ -21,8 +21,9 @@ const InternationalPerformances = () => {
         // 1. 내한 공연 목록 데이터 가져오기
         const data = await fetchPerformances(params);
         const performancesList = Array.isArray(data?.dbs?.db)
-          ? data.dbs.db
+          ? data.dbs.db.filter((item) => item?.mt20id?._text) // 공연 ID가 존재하는 항목만 필터링
           : [];
+        console.log("performancesList:", performancesList);
         // 2. 공연 ID 목록으로 상세 정보 조회
         const detailedPerformancesPromises = performancesList.map(
           (item) => fetchPerformanceDetails(item.mt20id._text) // 공연 ID로 상세 조회
@@ -31,13 +32,20 @@ const InternationalPerformances = () => {
           "detailedPerformancesPromises:",
           detailedPerformancesPromises
         );
-        const detailedPerformances = await Promise.all(
+
+        const detailedPerformances = await Promise.allSettled(
           detailedPerformancesPromises
         );
-        console.log("detailedPerformances:", detailedPerformances);
+
+        // 성공한 요청만 필터링
+        const successfulDetails = detailedPerformances
+          .filter((result) => result.status === "fulfilled")
+          .map((result) => result.value);
+
+        console.log("successfulDetails:", successfulDetails);
 
         // 3. 'visit' 필드가 'Y'인 내한 공연만 필터링
-        const filteredPerformances = detailedPerformances
+        const filteredPerformances = successfulDetails
           .filter((detail) => detail?.dbs?.db?.visit?._text === "Y")
           .map((detail) => detail.dbs.db);
         console.log("filteredPerformances:", filteredPerformances);
