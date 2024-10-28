@@ -4,50 +4,56 @@ import PerformanceCard from "../components/FestivalCard";
 import { fetchPerformances } from "../api/kopisApi";
 import LoadingBar from "../components/LoadingBar";
 
-const DomesticPerformance = () => {
-  const [performanceList, setPerformanceList] = useState([]);
+const DomesticPerformances = () => {
+  const [performances, setPerformances] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const loadDomesticPerformances = async () => {
+    const loadPerformances = async () => {
+      const cachedData = localStorage.getItem("domesticPerformances");
+      if (cachedData) {
+        setPerformances(JSON.parse(cachedData));
+        setLoading(false);
+        return;
+      }
+
       try {
-        const params = {
-          cpage: 1,
-          rows: 10, // 원하는 개수로 변경 가능
-          shcate: "AAAA", // 국내 공연 카테고리
-        };
+        const params = { cpage: 1, rows: 10, shcate: "AAAA" };
 
-        // 쿼리 파라미터가 제대로 전달되는지 확인
-        console.log("쿼리 파라미터 확인:", params);
+        setLoading(true);
+        setProgress(0);
 
-        // 국내 공연 데이터 가져오기
         const data = await fetchPerformances(params);
-
-        // 가져온 데이터를 배열로 설정
         const performancesData = Array.isArray(data?.dbs?.db)
           ? data.dbs.db
           : [];
-        setPerformanceList(performancesData);
+
+        setPerformances(performancesData);
+        localStorage.setItem(
+          "domesticPerformances",
+          JSON.stringify(performancesData)
+        );
+        setProgress(100);
       } catch (error) {
-        console.error("국내 공연 데이터 로딩 실패:", error);
         setError(error.message);
       } finally {
-        setLoading(false); // 로딩 상태 해제
+        setLoading(false);
       }
     };
 
-    loadDomesticPerformances(); // 데이터 로드
+    loadPerformances();
   }, []);
 
-  if (loading) return <LoadingBar progress={50} />; // 로딩바는 임의의 프로그레스 바로 설정
+  if (loading) return <LoadingBar progress={Math.floor(progress)} />;
   if (error) return <div>에러 발생: {error}</div>;
 
   return (
     <Container>
       <Row>
-        {performanceList.length > 0 ? (
-          performanceList.map((item, index) => (
+        {performances.length > 0 ? (
+          performances.map((item, index) => (
             <Col lg={4} key={index}>
               <PerformanceCard item={item} />
             </Col>
@@ -60,4 +66,4 @@ const DomesticPerformance = () => {
   );
 };
 
-export default DomesticPerformance;
+export default DomesticPerformances;

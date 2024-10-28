@@ -8,37 +8,43 @@ const DomesticFestivals = () => {
   const [festivals, setFestivals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const loadFestivals = async () => {
+      const cachedData = localStorage.getItem("domesticFestivals");
+      if (cachedData) {
+        setFestivals(JSON.parse(cachedData));
+        setLoading(false);
+        return;
+      }
+
       try {
-        const params = {
-          cpage: 1,
-          rows: 4, // 원하는 개수로 변경 가능
-          shcate: "CCCD", // 페스티벌 카테고리
-        };
+        const params = { cpage: 1, rows: 40, shcate: "CCCD" };
 
-        // 쿼리 파라미터가 제대로 전달되는지 확인
-        console.log("쿼리 파라미터 확인:", params);
+        setLoading(true);
+        setProgress(0);
 
-        // 국내 페스티벌 데이터 가져오기
         const data = await fetchPerformances(params);
-
-        // 가져온 데이터를 배열로 설정
         const festivalsData = Array.isArray(data?.dbs?.db) ? data.dbs.db : [];
+
         setFestivals(festivalsData);
+        localStorage.setItem(
+          "domesticFestivals",
+          JSON.stringify(festivalsData)
+        );
+        setProgress(100);
       } catch (error) {
-        console.error("페스티벌 데이터 로딩 실패:", error);
         setError(error.message);
       } finally {
-        setLoading(false); // 로딩 상태 해제
+        setLoading(false);
       }
     };
 
-    loadFestivals(); // 데이터 로드
+    loadFestivals();
   }, []);
 
-  if (loading) return <LoadingBar progress={50} />; // 로딩바는 임의의 프로그레스 바로 설정
+  if (loading) return <LoadingBar progress={Math.floor(progress)} />;
   if (error) return <div>에러 발생: {error}</div>;
 
   return (

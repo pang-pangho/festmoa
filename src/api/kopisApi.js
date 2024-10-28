@@ -22,10 +22,19 @@ const kopisApi = axios.create({
 });
 
 // 공연 목록을 가져오는 함수
-export const fetchPerformances = async (params) => {
+export const fetchPerformances = async (params, onProgress) => {
   try {
-    const response = await kopisApi.get("/pblprfr", { params });
-    console.log("Params:", params);
+    const response = await kopisApi.get("/pblprfr", {
+      params,
+      onDownloadProgress: (progressEvent) => {
+        if (onProgress) {
+          const progress = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          onProgress(progress); // 진행 상황을 콜백을 통해 전달
+        }
+      },
+    });
     const jsonResult = convertXmlToJson(response.data);
     return jsonResult;
   } catch (error) {

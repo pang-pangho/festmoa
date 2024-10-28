@@ -8,61 +8,61 @@ const InternationalPerformances = () => {
   const [performances, setPerformances] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const loadInternationalPerformances = async () => {
+    const loadPerformances = async () => {
+      const cachedData = localStorage.getItem("internationalPerformances");
+      if (cachedData) {
+        setPerformances(JSON.parse(cachedData));
+        setLoading(false);
+        return;
+      }
+
       try {
-        const params = {
-          cpage: 1,
-          rows: 100, // 원하는 개수로 변경 가능
-          shcate: "CCCD", // 내한 공연 카테고리
-        };
+        const params = { cpage: 1, rows: 100, shcate: "CCCD" };
 
-        // 1. 내한 공연 목록 데이터 가져오기
+        setLoading(true);
+        setProgress(0);
+
         const data = await fetchPerformances(params);
-
-        // 2. 공연 목록에서 공연 ID만 추출 (ID가 없는 항목은 제외)
         const performancesList = Array.isArray(data?.dbs?.db)
-          ? data.dbs.db.filter((item) => item?.mt20id?._text) // 공연 ID가 존재하는 항목만 필터링
+          ? data.dbs.db
           : [];
 
-        console.log("performancesList:", performancesList); // 공연 목록 출력
+        const detailedPerformancesPromises = performancesList.map(
+          (item, index) => {
+            setProgress(
+              Math.floor(((index + 1) / performancesList.length) * 100)
+            );
+            return fetchPerformanceDetails(item.mt20id._text);
+          }
+        );
 
-        // 3. 공연 ID 목록으로 상세 정보 조회 (Promise.allSettled 사용)
-        const detailedPerformancesPromises = performancesList.map((item) => {
-          const performanceId = item.mt20id._text;
-          console.log("Fetching details for performance ID:", performanceId); // 공연 ID 출력
-          return fetchPerformanceDetails(performanceId);
-        });
-
-        const detailedPerformances = await Promise.allSettled(
+        const detailedPerformances = await Promise.all(
           detailedPerformancesPromises
         );
-        console.log("detailedPerformances", detailedPerformances);
-        // 4. 성공한 요청만 필터링
         const successfulDetails = detailedPerformances
-          .filter(
-            (result) =>
-              result.status === "fulfilled" &&
-              result.value?.dbs?.db?.visit?._text === "Y"
-          )
-          .map((result) => result.value.dbs.db);
+          .filter((result) => result?.dbs?.db?.visit?._text === "Y")
+          .map((result) => result.dbs.db);
 
-        console.log("successfulDetails:", successfulDetails); // 성공한 상세 정보 출력
-
-        setPerformances(successfulDetails); // 필터링된 공연 정보를 상태에 저장
+        setPerformances(successfulDetails);
+        localStorage.setItem(
+          "internationalPerformances",
+          JSON.stringify(successfulDetails)
+        );
+        setProgress(100);
       } catch (error) {
-        console.error("내한 공연 데이터 로딩 실패:", error);
         setError(error.message);
       } finally {
-        setLoading(false); // 로딩 상태 해제
+        setLoading(false);
       }
     };
-    console.log("performances", performances);
-    loadInternationalPerformances(); // 데이터 로드
+
+    loadPerformances();
   }, []);
 
-  if (loading) return <LoadingBar progress={50} />; // 로딩바는 임의의 프로그레스 바로 설정
+  if (loading) return <LoadingBar progress={Math.floor(progress)} />;
   if (error) return <div>에러 발생: {error}</div>;
 
   return (
