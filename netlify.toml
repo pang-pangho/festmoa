@@ -5,7 +5,8 @@
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
-  
+  force = true
+
 [dev]  
   framework = "#custom"         # 감지할 프로젝트 유형을 지정합니다. 앱 서버 및 'targetPort' 옵션을 실행하는 명령 옵션은 ''
   command = "npm run dev"       # 연결할 프로젝트의 개발 서버를 실행하는 명령(스크립트)을 지정합니다.
