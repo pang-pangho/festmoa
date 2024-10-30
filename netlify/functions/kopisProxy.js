@@ -12,7 +12,6 @@ exports.handler = async function (event, context) {
   const API_KEY = process.env.KOPIS_API_KEY;
 
   // API 키 확인
-  console.log("API Key: ", API_KEY);
 
   const API_URL = `https://kopis.or.kr/openApi/restful/pblprfr?service=${API_KEY}&${new URLSearchParams(
     queryParams

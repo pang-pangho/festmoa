@@ -10,8 +10,6 @@ const baseURL =
 console.log(process.env.NODE_ENV);
 const API_KEY = process.env.REACT_APP_KOPIS_API_KEY;
 const CORS_API_KEY = "temp_5eb2645376d1df14021a05db0b16c3a5"; // 발급받은 cors.sh API 키
-console.log("API Key:", API_KEY); // API 키 확인
-console.log("Base URL:", baseURL); // baseURL 확인
 
 const kopisApi = axios.create({
   baseURL,
@@ -50,7 +48,6 @@ export const fetchPerformanceDetails = async (performanceId) => {
     const response = await kopisApi.get(`/pblprfr/${performanceId}`, {
       params: { service: API_KEY },
     });
-    console.log("Performance details response:", response.data);
     const jsonResult = convertXmlToJson(response.data);
     return jsonResult;
   } catch (error) {
