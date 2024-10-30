@@ -16,6 +16,7 @@ const kopisApi = axios.create({
   params: { service: API_KEY },
   headers: {
     "x-cors-api-key": CORS_API_KEY, // cors.sh API 키 헤더에 추가
+    "x-requested-with": "XMLHttpRequest",
   },
 });
 
@@ -44,7 +45,6 @@ export const fetchPerformances = async (params, onProgress) => {
 // 공연 상세 정보를 가져오는 함수
 export const fetchPerformanceDetails = async (performanceId) => {
   try {
-    console.log("Fetching details for performance ID:", performanceId);
     const response = await kopisApi.get(`/pblprfr/${performanceId}`, {
       params: { service: API_KEY },
     });
