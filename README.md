@@ -1,70 +1,44 @@
-# Getting Started with Create React App
+# 페스모아 (Festmoa)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[페스모아](https://festmoa.netlify.app/)는 국내 및 국제 공연, 페스티벌 정보를 한 곳에 모아 사용자에게 제공합니다. 사용자 친화적인 인터페이스로 원하는 공연을 쉽게 찾아볼 수 있도록 다양한 기능을 구현하였습니다.
 
-## Available Scripts
+## 프로젝트 개요
 
-In the project directory, you can run:
+페스모아는 Netlify에 배포된 React 기반 웹사이트입니다. 사용자에게 최신 공연과 페스티벌 정보를 제공하고, 특정 공연의 상세 정보를 열람할 수 있는 기능을 제공합니다. 특히 CORS 문제를 해결하기 위해 [CORS proxy](https://cors.sh/)를 활용하여 외부 API에 안전하게 접근합니다.
 
-### `npm start`
+### 주요 기능
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **국내 공연 목록 조회**: 국내에서 진행되는 공연 정보를 불러와 보여줍니다.
+- **국내 페스티벌 목록 조회**: 국내에서 열리는 다양한 페스티벌 정보를 제공합니다.
+- **내한 공연 목록 조회**: 해외 아티스트의 내한 공연 정보를 한눈에 확인할 수 있습니다.
+- **상세 정보 보기**: 각 공연의 상세 정보를 확인합니다
+- **로딩바 기능**: 공연 데이터를 불러오는 동안 로딩 진행률을 보여주며, 사용자 경험을 개선합니다.
+- **캐싱**: 동일한 공연 정보에 대한 중복 요청을 줄이기 위해, 데이터를 로컬 스토리지에 저장하여 재접속 시 빠르게 데이터를 불러옵니다.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 기술 스택
 
-### `npm test`
+- **프론트엔드**: React, React Router
+- **백엔드 API**: KOPIS API (공연 정보 제공)
+- **배포**: Netlify
+- **기타**: CORS.sh Proxy (CORS 문제 해결)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 설치 및 실행 방법
 
-### `npm run build`
+1. **클론 및 종속성 설치**
+   ```bash
+   git clone https://github.com/your-username/festmoa.git
+   cd festmoa
+   npm install
+   ```
+   
+2.**환경 변수 설정**
+```bash
+REACT_APP_KOPIS_API_KEY=your_kopis_api_key
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 향후 개발 계획
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **사용자별 즐겨찾기 기능 추가**: 사용자가 관심 있는 공연을 즐겨찾기에 추가하여 쉽게 다시 찾을 수 있도록 지원.
+- **지역별 필터링 기능 구현**: 특정 지역의 공연 및 페스티벌만을 필터링하여 볼 수 있는 기능 추가.
+- **검색 기능 구현**: 특정 공연 및 페스티벌 검색하여 확인 할 수 있도록 지원.
+- **예매처 바로가기 구현**: 공연 상세페이지에서 예매처로 바로 갈 수 있도록 지원.
