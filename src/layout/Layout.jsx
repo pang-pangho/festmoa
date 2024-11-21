@@ -26,6 +26,9 @@ const Layout = () => {
             <Nav.Link as={NavLink} to="/international-performances">
               내한공연
             </Nav.Link>
+            <Nav.Link as={NavLink} to="/community">
+              커뮤니티
+            </Nav.Link>
           </Nav>
           {/* 검색창 추가 */}
           <Form className="d-flex search-form">
