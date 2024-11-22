@@ -16,7 +16,7 @@ const kopisApi = axios.create({
   params: { service: API_KEY },
   headers: {
     "x-cors-api-key": CORS_API_KEY, // cors.sh API 키 헤더에 추가
-    origin: "https://festmoa.netlify.app",
+
     "x-requested-with": "XMLHttpRequest",
   },
 });
