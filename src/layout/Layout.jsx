@@ -5,7 +5,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../context/AuthProvider"; // AuthProvider에서 로그인 상태 가져오기
@@ -15,11 +15,13 @@ import "./Layout.style.css";
 
 const Layout = () => {
   const { user } = useAuth(); // 로그인된 사용자 정보 가져오기
+  const navigate = useNavigate();
   console.log("user:", user);
   const handleLogout = async () => {
     try {
       await signOut(auth); // Firebase 로그아웃
       alert("로그아웃 되었습니다.");
+      navigate("/");
     } catch (error) {
       console.error("로그아웃 에러:", error.message);
     }
