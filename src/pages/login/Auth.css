@@ -1,0 +1,112 @@
+.form-container {
+  height: 65vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  margin: auto;
+  width: 400px;
+  padding: 20px 30px;
+  background: #fff;
+  border: 1px solid #dfdfdf;
+  transform-style: preserve-3d;
+  perspective-origin: 50px center;
+  perspective: 2000px;
+  transition: transform 1s ease;
+}
+
+.field {
+  position: relative;
+  background: #cfcfcf;
+  margin-top: 10px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.email .icon {
+  background-image: url(https://image.flaticon.com/icons/svg/131/131040.svg);
+}
+
+.password .icon {
+  background-image: url(https://image.flaticon.com/icons/svg/130/130996.svg);
+}
+
+.input {
+  border: 1px solid #dfdfdf;
+  background: #fff;
+  height: 48px;
+  line-height: 48px;
+  padding: 0 10px 0 48px;
+  width: 100%;
+}
+
+.button {
+  display: block;
+  width: 100%;
+  border: none;
+  text-align: center;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(45deg, #e53935, #e35d5b);
+  margin-top: 20px;
+  padding: 14px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.button:hover {
+  transform: scale(0.98);
+}
+
+small {
+  color: #999;
+  text-align: center;
+  display: block;
+  margin-top: 20px;
+}
+
+/* Animation States */
+.form-complete {
+  animation: formComplete 2s ease;
+}
+
+.form-error {
+  animation: formError 2s ease;
+}
+
+@keyframes formComplete {
+  50%,
+  55% {
+    transform: rotateX(30deg) rotateY(180deg);
+  }
+  100% {
+    transform: rotateX(0deg) rotateY(1turn);
+  }
+}
+
+@keyframes formError {
+  0%,
+  100% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  25% {
+    transform: rotateX(-25deg);
+  }
+  33% {
+    transform: rotateX(-25deg) rotateY(45deg);
+  }
+  66% {
+    transform: rotateX(-25deg) rotateY(-30deg);
+  }
+}

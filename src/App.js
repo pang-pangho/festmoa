@@ -10,7 +10,8 @@ import InternationalPerformances from "./pages/InternationalPerformances";
 import FestivalDetail from "./pages/FestivalDetail";
 import Community from "./pages/Community";
 import Create from "./pages/Create";
-
+import SignUp from "./pages/login/signup/SignUp";
+import SignIn from "./pages/login/signin/SignIn";
 function App() {
   const [posts, setPosts] = useState([]); // 게시글 상태 관리
 
@@ -38,6 +39,8 @@ function App() {
           element={<InternationalPerformances />}
         />
         <Route path="/detail/:id" element={<FestivalDetail />} />
+        <Route path="/signin" element={<SignIn />} /> {/* 로그인 페이지 */}
+        <Route path="/signup" element={<SignUp />} /> {/* 회원가입 페이지 */}
       </Routes>
       <Footer />
     </Router>

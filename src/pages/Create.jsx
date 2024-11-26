@@ -36,17 +36,6 @@ const Create = ({ onAddPost }) => {
       <div className="section-title">게시글 작성</div>
       <form onSubmit={submitHandler}>
         <div className="form-group">
-          <label htmlFor="author">작성자</label>
-          <input
-            type="text"
-            className="form-control"
-            id="author"
-            placeholder="작성자 이름을 입력하세요"
-            value={formInput.author}
-            onChange={changeHandler}
-          />
-        </div>
-        <div className="form-group">
           <label htmlFor="title">제목</label>
           <input
             type="text"
