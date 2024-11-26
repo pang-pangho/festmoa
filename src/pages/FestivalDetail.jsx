@@ -26,7 +26,7 @@ const FestivalDetail = () => {
     };
     loadDetails();
   }, [id]);
-
+  console.log("!!!details?.styurls?.styurl");
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>에러 발생: {error}</div>;
   if (!details) return <div>해당 공연 정보를 찾을 수 없습니다.</div>;
@@ -34,7 +34,7 @@ const FestivalDetail = () => {
   // 콘솔에 포스터 및 기타 정보가 제대로 있는지 확인
   console.log("Poster URL:", details?.poster?._text);
   console.log("Performance Name:", details?.prfnm?._text);
-
+  console.log("!!!", details?.styurls?.styurl._text);
   return (
     <Container className="festival-detail-container">
       <Row className="my-4">
@@ -59,6 +59,15 @@ const FestivalDetail = () => {
           <p>티켓 가격: {details?.pcseguidance?._text || "정보 없음"}</p>
           <p>러닝 타임: {details?.prfruntime?._text || "정보 없음"}</p>
         </Col>
+      </Row>
+      <Row>
+        <img
+          src={
+            details?.styurls?.styurl._text ||
+            "https://via.placeholder.com/300x400"
+          }
+          alt={details?.prfnm?._text || "포스터 이미지가 없습니다."}
+        />
       </Row>
     </Container>
   );
