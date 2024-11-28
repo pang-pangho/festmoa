@@ -65,7 +65,7 @@ const Layout = () => {
             </Nav.Link>
           )}
           {/* 검색창 */}
-          <Form className="d-flex search-form">
+          {/* <Form className="d-flex search-form">
             <Form.Control
               type="search"
               placeholder="Search"
@@ -75,7 +75,7 @@ const Layout = () => {
             <Button variant="outline-light" className="search-btn">
               <FontAwesomeIcon icon={faSearch} />{" "}
             </Button>
-          </Form>
+          </Form> */}
         </Navbar.Collapse>
       </Container>
     </Navbar>
